@@ -38,7 +38,7 @@ router.get('/:id', validateUserId, (req, res) => {
     res.status(200).json({ user: req.user })
 });
 
-router.get('/:id/posts', validateUserId, validatePost, (req, res) => {
+router.get('/:id/posts', validateUserId, (req, res) => {
     db.getUserPosts(req.params.id)
         .then(userPost => {
             res.status(200).json({ data: userPost })
