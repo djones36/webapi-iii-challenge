@@ -28,23 +28,36 @@ router.post('/:id/posts', validatePost, (req, res) => {
 });
 
 router.get('/', (req, res) => {
-
+    db.get()
+        .then(users => {
+            res.status(200).json({ data: users })
+        })
 });
 
 router.get('/:id', validateUserId, (req, res) => {
     res.status(200).json({ user: req.user })
 });
 
-router.get('/:id/posts', (req, res) => {
-
+router.get('/:id/posts', validateUserId, validatePost, (req, res) => {
+    db.getUserPosts(req.params.id)
+        .then(userPost => {
+            res.status(200).json({ data: userPost })
+        })
 });
 
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', validateUserId, (req, res) => {
+    db.remove(req.params.id)
+        .then(deleteUser => {
+            // console.log(deleteUser)
+            res.status(200).json({ data: "User was deleted" })
+        }).catch(err => res.status(500).json({ err: "error" }))
 });
 
-router.put('/:id', (req, res) => {
-
+router.put('/:id', validateUserId, (req, res) => {
+    db.update(req.params.id, req.body)
+        .then(() => {
+            res.status(200).json({ message: "The user was correctly updated" })
+        }).catch(err => res.status(500).json({ message: "user unable to update" }))
 });
 
 //custom middleware
