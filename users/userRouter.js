@@ -3,15 +3,28 @@ const express = require('express');
 const router = express.Router();
 
 const db = require('./userDb')
+const Posts = require('../posts/postDb')
 
 router.use(validateUser)
 
 router.post('/', (req, res) => {
-
+    db.insert(req.body)
+        .then(newUser => {
+            console.log(newUser)
+            res.status(201).json({ data: newUser })
+        })
 });
 
 router.post('/:id/posts', validatePost, (req, res) => {
-    res.status(200).json({ message: "success" })
+    const userPost = {
+        user_id: req.body.user_id,
+        text: req.body.text
+    }
+    Posts.insert(userPost)
+        .then(newPost => {
+            console.log(newPost)
+            res.status(201).json({ data: newPost })
+        })
 });
 
 router.get('/', (req, res) => {
