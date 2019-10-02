@@ -68,6 +68,7 @@ The `userDb.js` helper includes an extra method called `getUserPosts()` that whe
 #### Database Schemas
 
 The _Database Schemas_ for the `users` and `posts` resources are:
+new branch
 
 ##### Users
 
